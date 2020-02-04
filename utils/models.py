@@ -10,10 +10,12 @@ class SpotiModel(models.Model):
     Este Modelos contendra campos para el fecha de creacion y modificacion
     """
     created = models.DateTimeField(
+        'created at',
         auto_now_add=True,
         help_text='Fecha y hora en la cual se modifico el objeto'
     )
     modified = models.DateTimeField(
+        'modified at',
         auto_now=True,
         help_text='Fecha y hora en la cual se modifico el objeto'
     )
