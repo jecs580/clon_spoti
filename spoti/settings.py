@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # local
-    'users',
+    'artists.apps.UsersAppConfig',
+    'artists.apps.ArtistsAppConfig',
+    'albums.apps.AlbumsAppConfig',
 ]
 
 MIDDLEWARE = [
