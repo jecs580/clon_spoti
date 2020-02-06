@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # local
-    'users',
+    'artists.apps.UsersAppConfig',
+    'artists.apps.ArtistsAppConfig',
+    'albums.apps.AlbumsAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -110,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/La_Paz'
 
 USE_I18N = True
 
