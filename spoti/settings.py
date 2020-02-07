@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # local
-    'artists.apps.UsersAppConfig',
+    'users.apps.UsersAppConfig',
     'artists.apps.ArtistsAppConfig',
     'albums.apps.AlbumsAppConfig',
 ]
