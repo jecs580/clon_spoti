@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(('users.urls', 'users'), namespace='users')),
     path('', include(('artists.urls', 'artists'), namespace='artists')),
     path('', include(('albums.urls', 'albums'), namespace='albums')),
     path('', include(('tracks.urls', 'tracks'), namespace='tracks')),
