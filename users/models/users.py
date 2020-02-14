@@ -21,6 +21,12 @@ class User(SpotiModel, AbstractUser):
          upload_to='users/pictures/',
         blank=True, null=True
     )
+    is_verified = models.BooleanField(
+        'verificado',
+        default=False,
+        help_text=('Establece verdadero cuando el usuario haya verificado su email')
+    )
+
     USERNAME_FIELD = 'email'  # Establecemos el email como nuevo identificador.
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']  # Campos que seran requeridos al
     # momento de crear objetos de tipo User.

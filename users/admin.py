@@ -13,6 +13,6 @@ class CustomeUserAdmin(UserAdmin):
     list_display=('email','username','picture','first_name','last_name','is_staff','is_client')
     list_display_links=('email',)
     list_editable=('picture',)
-    list_filter=('is_client','is_staff','created','modified')
+    list_filter=('is_client','is_staff','created','modified','is_verified')
 
 admin.site.register(User,CustomeUserAdmin)
