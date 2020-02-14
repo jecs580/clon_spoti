@@ -9,7 +9,10 @@ from rest_framework.response import Response
 from users.models import User
 
 # Serializers
-from users.serializers import UserModelSerializer, UserSignupSerializer
+from users.serializers import (
+    UserModelSerializer,
+    UserSignupSerializer,
+    AccountVerificationSerializer)
 
     
 class UserViewSet(
@@ -30,3 +33,12 @@ class UserViewSet(
         user=serializer.save()  # Creacion un usuario y lo retornamos
         data=UserModelSerializer(user).data # Serializamos los datos
         return Response(data,status=status.HTTP_201_CREATED)  # Enviamos los datos serializados como respuesta.
+
+    @action(detail=False, methods=['post'])
+    def verify(self, request):
+        """Verica que el correo registrado sea del usuario"""
+        serializer = AccountVerificationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        data={'mensaje':'¡Felicidades, ahora puedes usar la API!'}
+        return Response(data,status=status.HTTP_200_OK)

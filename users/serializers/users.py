@@ -71,9 +71,7 @@ class UserSignupSerializer(serializers.Serializer):
         content = render_to_string(
             'emails/users/account_verification.html',
             {'token': verification_token, 'user': user}
-        ) # Esta variable se usara en caso de que el usario no pueda interpretar el contenido html que se le envio, # El metodo render_to_string(), ayuda a no tener otra variable en caso de que no funcione el html
-        
-        # html_content = '<p>This is an <strong>important</strong> message.</p>' # Esta variable era del contenido con html pero con la otra variable matamos 2 pajaros de un tiro.
+        ) 
 
         msg = EmailMultiAlternatives(
             subject, 
@@ -94,7 +92,37 @@ class UserSignupSerializer(serializers.Serializer):
         payload={
             'user':user.username,
             'exp':int(exp_date.timestamp()),
-            'type':'email_confirmation' #Creamos una variable que especifique de que es el token, se lo usa cuando tu proyecto genera mas JWT en otras aplicaciones y no queremos que se confundan.
+            'type':'email_confirmation'
         }
         token=jwt.encode(payload,settings.SECRET_KEY,algorithm='HS256')
         return token.decode()
+
+class AccountVerificationSerializer(serializers.Serializer):
+    """Serializador para verificar la cuenta."""
+
+    token=serializers.CharField()
+
+    def validate_token(self,data):
+        """Verificamos que el token sea valido"""
+
+        try:
+            payload=jwt.decode(data,settings.SECRET_KEY, algorithms=['HS256'])
+        except jwt.ExpireSignatureError:
+            raise serializers.ValidationError('El enlace de verificacion ha expirado')
+        except jwt.PyJWTError:
+            raise serializers.ValidationError('Token invalido')
+        if payload['type']!='email_confirmation':
+            raise serializers.ValidationError('Token invalido')
+
+        self.context['payload']=payload
+        return data
+
+    def save(self):
+        """Actualizamos el estado de verifcado del usuario
+        
+        Sobre-escribimos el metodo save en lugar de create o update por que no devolveremos nada
+        """
+        payload=self.context['payload']
+        user=User.objects.get(username=payload['user'])
+        user.is_verified=True
+        user.save()
