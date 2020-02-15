@@ -3,7 +3,7 @@
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-
+from rest_framework.authtoken.models import Token
 # Django
 from django.contrib.auth import authenticate,password_validation
 from django.core.mail import EmailMultiAlternatives
@@ -126,3 +126,24 @@ class AccountVerificationSerializer(serializers.Serializer):
         user=User.objects.get(username=payload['user'])
         user.is_verified=True
         user.save()
+
+class UserLoginSerializer(serializers.Serializer):
+    """Serializador para inicio de sesion."""
+
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        """Verifica las credenciales."""
+        user = authenticate(username=data['email'], password=data['password'])
+        if not user:
+            raise serializers.ValidationError('Credenciales Invalidas')
+        if not user.is_verified:
+            raise serializers.ValidationError('La cuenta no esta verificada')
+        self.context['user'] = user
+        return data
+
+    def create(self, data):
+        """Recupera o crea un nuevo token."""
+        token, created = Token.objects.get_or_create(user=self.context['user'])
+        return self.context['user'], token.key

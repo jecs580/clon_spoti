@@ -12,7 +12,8 @@ from users.models import User
 from users.serializers import (
     UserModelSerializer,
     UserSignupSerializer,
-    AccountVerificationSerializer)
+    AccountVerificationSerializer,
+    UserLoginSerializer)
 
     
 class UserViewSet(
@@ -42,3 +43,15 @@ class UserViewSet(
         serializer.save()
         data={'mensaje':'¡Felicidades, ahora puedes usar la API!'}
         return Response(data,status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['post'])
+    def login(self, request):
+        """Inicio de sesion de Usuarios."""
+        serializer = UserLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user,token = serializer.save()
+        data={
+            'user':UserModelSerializer(user).data,
+            'access_token':token
+        }
+        return Response(data, status=status.HTTP_200_OK)
