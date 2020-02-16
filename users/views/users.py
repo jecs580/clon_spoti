@@ -15,6 +15,11 @@ from users.serializers import (
     AccountVerificationSerializer,
     UserLoginSerializer)
 
+# Permissions
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated
+)
     
 class UserViewSet(
     mixins.UpdateModelMixin,
@@ -22,9 +27,19 @@ class UserViewSet(
     viewsets.GenericViewSet
 ):
     """Vistas de Usuario."""
-
+    
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+
+    def get_permissions(self):
+        """Asigna permisos en función de la acción."""
+        if self.action in ['signup','login','verify']:
+            permissions=[AllowAny] # No colocamos comillas por que es una clase que se coloca.
+        elif self.action in ['retrieve','update','partial_update']:
+            permissions=[IsAuthenticated] # Permitira la vista solo si esta autenticado y el usuario que quiere recuperar es el propietario
+        else:
+            permissions=[IsAuthenticated]
+        return [permission() for permission in permissions]
 
     @action(detail=False,methods=['post'])
     def signup(self,request):
