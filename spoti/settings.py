@@ -48,9 +48,12 @@ INSTALLED_APPS = [
     'artists.apps.ArtistsAppConfig',
     'albums.apps.AlbumsAppConfig',
     'tracks.apps.TracksAppConfig',
+
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,6 +89,7 @@ EMAIL_PORT = 1025
 
 WSGI_APPLICATION = 'spoti.wsgi.application'
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
