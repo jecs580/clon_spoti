@@ -20,7 +20,7 @@ from rest_framework.permissions import (
     AllowAny,
     IsAuthenticated
 )
-    
+from users.permissions import IsAccountOwner
 class UserViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
@@ -30,13 +30,14 @@ class UserViewSet(
     
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+    lookup_field='username'
 
     def get_permissions(self):
         """Asigna permisos en función de la acción."""
-        if self.action in ['signup','login','verify']:
+        if self.action in ['signup', 'login', 'verify']:
             permissions=[AllowAny] # No colocamos comillas por que es una clase que se coloca.
-        elif self.action in ['retrieve','update','partial_update']:
-            permissions=[IsAuthenticated] # Permitira la vista solo si esta autenticado y el usuario que quiere recuperar es el propietario
+        elif self.action in ['retrieve', 'update','partial_update']:
+            permissions=[IsAuthenticated, IsAccountOwner] # Permitira la vista solo si esta autenticado y el usuario que quiere recuperar es el propietario
         else:
             permissions=[IsAuthenticated]
         return [permission() for permission in permissions]

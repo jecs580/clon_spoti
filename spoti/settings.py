@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'artists.apps.ArtistsAppConfig',
     'albums.apps.AlbumsAppConfig',
     'tracks.apps.TracksAppConfig',
-
     'corsheaders',
 ]
 
@@ -62,7 +61,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+CORS_ORIGIN_ALLOW_ALL = False
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:4200"
+]
 ROOT_URLCONF = 'spoti.urls'
 
 TEMPLATES = [
