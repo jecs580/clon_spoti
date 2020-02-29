@@ -16,8 +16,8 @@ class Album(SpotiModel):
         max_length=60
     )
     artist = models.ForeignKey(
-        'artists.Artist',on_delete=models.CASCADE,
-        help_text='Artista que pertenece el album',
+        'artists.Artist', on_delete=models.CASCADE,
+        help_text='Artista que pertenece el album'
     )
     description = models.TextField(
         help_text='Descripcion del Album',
@@ -30,15 +30,14 @@ class Album(SpotiModel):
         help_text='Anio de publicacion de album'
     )
     portada = models.ImageField(
-    'foto de portada',
-    upload_to='albums/portadas/',
-    blank=True, null=True
+        'foto de portada',
+        upload_to='albums/portadas/',
+        blank=True, null=True
     )
-    
+
     def __str__(self):
         """Retorna titulo del album mas su Artista."""
         return 'Album {} por {}'.format(
             self.title,
             self.artist.name
         )
-

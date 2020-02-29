@@ -14,5 +14,8 @@ djangorestframework==3.11.0
 # JWT
 pyjwt==1.7.1
 
+# Calidad del código
+flake8==3.6.0
+
 # Este es conector con postgress
 # psycopg2==2.7.4 --no-binary psycopg2

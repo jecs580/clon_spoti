@@ -3,14 +3,15 @@
 # Django REST Framework
 from rest_framework.viewsets import ModelViewSet
 
-#Models
+# Models
 from albums.models import Album
 
 # Serializers
 from albums.serializers import AlbumModelSerializer
 
 # Permissions
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
+
 
 class AlbumViewSet(ModelViewSet):
     """Vistas del Album"""
