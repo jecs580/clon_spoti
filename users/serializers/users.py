@@ -67,7 +67,7 @@ class UserSignupSerializer(serializers.Serializer):
         """
         verification_token=self.gen_verification_token(user)
         subject='Bienvenido @{}! Verifica tu cuenta para empezar a usar Clon Spoti'.format(user.username)
-        from_email='Clon Spoti <sanchezenrique580@gmail.com>'
+        from_email=settings.EMAIL_HOST_USER
         content = render_to_string(
             'emails/users/account_verification.html',
             {'token': verification_token, 'user': user}
