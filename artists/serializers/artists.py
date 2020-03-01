@@ -12,5 +12,5 @@ class ArtistModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Clase Meta."""
-        model=Artist
-        fields='__all__'
+        model = Artist
+        fields = '__all__'

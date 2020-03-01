@@ -14,7 +14,7 @@ router.register(
     r'artists',  # Ruta raiz que buscara
     artist_views.ArtistViewSet,  # Vista relacioanada
     basename='artist'
-    ) 
+    )
 
 urlpatterns = [
     path('', include(router.urls))

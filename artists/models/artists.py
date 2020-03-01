@@ -9,7 +9,7 @@ from utils.models import SpotiModel
 
 class Artist(SpotiModel):
     """Modelo de artista."""
-    name=models.CharField(
+    name = models.CharField(
         'Nombre Artistico',
         max_length=64,
         unique=True,
