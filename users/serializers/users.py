@@ -107,7 +107,7 @@ class AccountVerificationSerializer(serializers.Serializer):
 
         try:
             payload=jwt.decode(data,settings.SECRET_KEY, algorithms=['HS256'])
-        except jwt.ExpireSignatureError:
+        except jwt.ExpiredSignatureError:
             raise serializers.ValidationError('El enlace de verificacion ha expirado')
         except jwt.PyJWTError:
             raise serializers.ValidationError('Token invalido')
