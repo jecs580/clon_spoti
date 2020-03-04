@@ -1,4 +1,4 @@
-"""URLs de Tracs."""
+"""URLs de Tracks."""
 
 # Django
 from django.urls import path, include

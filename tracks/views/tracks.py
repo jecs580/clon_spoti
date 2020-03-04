@@ -10,13 +10,11 @@ from tracks.models import Track
 from tracks.serializers import TrackModelSerializer
 
 # Permissions
-from rest_framework.permissions import (
-    AllowAny,
-    IsAuthenticated
-)
+from rest_framework.permissions import IsAuthenticated
+
 
 class TrackViewSet(ModelViewSet):
     """Vista de Tracks."""
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Track.objects.all()
     serializer_class = TrackModelSerializer
