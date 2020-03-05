@@ -23,7 +23,10 @@ class SpotiModel(models.Model):
     class Meta:
         """Clase Meta."""
         abstract = True
-        # Especificamos que el ultimo en traer de los querys sera el ultimo creado
+        # Especificamos que el ultimo objeto en traer de los querys
+        # sera el ultimo creado
         get_latest_by = 'created'
-        ordering = ['-created', '-modified']  # Colocamos que los objetos del modelo seran devueltos
-        # ordenas en forma descendente por creacion, en le caso que haya coincidencia usara el de la modificacion
+        ordering = ['-created', '-modified']  # Colocamos que los
+        # objetos del modelo seran devueltos
+        # ordena en forma descendente por creacion,en caso que haya
+        # coincidencia usara el campo de modificacion

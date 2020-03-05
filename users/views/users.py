@@ -21,35 +21,42 @@ from rest_framework.permissions import (
     IsAuthenticated
 )
 from users.permissions import IsAccountOwner
+
+
 class UserViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet
 ):
     """Vistas de Usuario."""
-    
+
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
-    lookup_field='username'
+    lookup_field = 'username'
 
     def get_permissions(self):
         """Asigna permisos en función de la acción."""
         if self.action in ['signup', 'login', 'verify']:
-            permissions=[AllowAny] # No colocamos comillas por que es una clase que se coloca.
-        elif self.action in ['retrieve', 'update','partial_update']:
-            permissions=[IsAuthenticated, IsAccountOwner] # Permitira la vista solo si esta autenticado y el usuario que quiere recuperar es el propietario
+            # No colocamos comillas por que es una clase que se coloca.
+            permissions = [AllowAny]
+        elif self.action in ['retrieve', 'update', 'partial_update']:
+            # Permitira la vista solo si esta autenticado y el usuario que
+            # quiere recuperar es el propietario
+            permissions = [IsAuthenticated, IsAccountOwner]
         else:
-            permissions=[IsAuthenticated]
+            permissions = [IsAuthenticated]
         return [permission() for permission in permissions]
 
-    @action(detail=False,methods=['post'])
-    def signup(self,request):
+    @action(detail=False, methods=['post'])
+    def signup(self, request):
         """Registro de Usuarios."""
-        serializer=UserSignupSerializer(data=request.data)  # Restauramos los datos del request a un diccionario
+        serializer = UserSignupSerializer(
+            data=request.data)
         serializer.is_valid(raise_exception=True)  # Validamos los datos
-        user=serializer.save()  # Creacion un usuario y lo retornamos
-        data=UserModelSerializer(user).data # Serializamos los datos
-        return Response(data,status=status.HTTP_201_CREATED)  # Enviamos los datos serializados como respuesta.
+        user = serializer.save()  # Creacion un usuario y lo retornamos
+        data = UserModelSerializer(user).data  # Serializamos los datos
+        # Enviamos los datos serializados como respuesta.
+        return Response(data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['post'])
     def verify(self, request):
@@ -57,17 +64,17 @@ class UserViewSet(
         serializer = AccountVerificationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        data={'mensaje':'¡Felicidades, ahora puedes usar la API!'}
-        return Response(data,status=status.HTTP_200_OK)
-    
+        data = {'mensaje': '¡Felicidades, ahora puedes usar la API!'}
+        return Response(data, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['post'])
     def login(self, request):
         """Inicio de sesion de Usuarios."""
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user,token = serializer.save()
-        data={
-            'user':UserModelSerializer(user).data,
-            'access_token':token
+        user, token = serializer.save()
+        data = {
+            'user': UserModelSerializer(user).data,
+            'access_token': token
         }
         return Response(data, status=status.HTTP_200_OK)
