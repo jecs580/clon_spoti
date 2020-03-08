@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,12 +87,12 @@ TEMPLATES = [
     },
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Django ya viene con esta configuracion como predeterminado. Lo estamos especificando explicitamente.
+EMAIL_HOST = config('EMAIL_H')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'jcelbarto@gmail.com'
-EMAIL_HOST_PASSWORD = '12394085lp'
+EMAIL_HOST_USER = config('EMAIL_H_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_H_PASSWORD')
 
 WSGI_APPLICATION = 'spoti.wsgi.application'
 
