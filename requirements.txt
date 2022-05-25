@@ -12,7 +12,7 @@ django-environ==0.4.5
 djangorestframework==3.11.0
 
 # JWT
-pyjwt==1.7.1
+pyjwt==2.4.0
 
 # Calidad del código
 flake8==3.6.0
